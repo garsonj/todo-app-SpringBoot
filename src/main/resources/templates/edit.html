@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Edit Todo</title>
+	<style>
+		:root {
+			color-scheme: light;
+			--bg: #f8fafc;
+			--panel: #ffffff;
+			--text: #111827;
+			--muted: #6b7280;
+			--accent: #0f766e;
+			--accent-soft: #ccfbf1;
+			--border: #e5e7eb;
+		}
+
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			margin: 0;
+			font-family: Arial, Helvetica, sans-serif;
+			background: radial-gradient(circle at top, #d1fae5 0, #f8fafc 42%, #eef2ff 100%);
+			color: var(--text);
+		}
+
+		.container {
+			max-width: 760px;
+			margin: 0 auto;
+			padding: 40px 20px 60px;
+		}
+
+		.panel {
+			background: rgba(255, 255, 255, 0.88);
+			backdrop-filter: blur(10px);
+			border: 1px solid rgba(255, 255, 255, 0.8);
+			border-radius: 28px;
+			padding: 32px;
+			box-shadow: 0 20px 60px rgba(15, 23, 42, 0.12);
+		}
+
+		h1 {
+			margin: 0 0 8px;
+			font-size: clamp(2rem, 4vw, 2.8rem);
+		}
+
+		p {
+			margin: 0;
+			color: var(--muted);
+		}
+
+		.form {
+			margin-top: 24px;
+			display: grid;
+			gap: 16px;
+			background: var(--panel);
+			border: 1px solid var(--border);
+			border-radius: 22px;
+			padding: 24px;
+		}
+
+		input[type="checkbox"] {
+			width: 18px;
+			height: 18px;
+			accent-color: var(--accent);
+		}
+
+		.field {
+			display: grid;
+			gap: 8px;
+		}
+
+		label {
+			font-weight: 700;
+		}
+
+		input, textarea {
+			width: 100%;
+			border: 1px solid var(--border);
+			border-radius: 14px;
+			padding: 14px 16px;
+			font: inherit;
+		}
+
+		textarea {
+			min-height: 140px;
+			resize: vertical;
+		}
+
+		.row {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 16px;
+		}
+
+		.actions {
+			display: flex;
+			gap: 12px;
+			flex-wrap: wrap;
+			margin-top: 8px;
+		}
+
+		button, .button {
+			border: 0;
+			border-radius: 14px;
+			padding: 14px 18px;
+			background: var(--accent);
+			color: #fff;
+			text-decoration: none;
+			font-weight: 700;
+			cursor: pointer;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.secondary {
+			background: var(--accent-soft);
+			color: var(--accent);
+		}
+
+		.badge {
+			display: inline-flex;
+			align-items: center;
+			gap: 8px;
+			padding: 8px 12px;
+			border-radius: 999px;
+			background: var(--accent-soft);
+			color: var(--accent);
+			font-weight: 700;
+			font-size: 0.92rem;
+		}
+
+		@media (max-width: 640px) {
+			.row {
+				grid-template-columns: 1fr;
+			}
+		}
+	</style>
+</head>
+<body>
+	<main class="container">
+		<section class="panel">
+			<span class="badge">Edit task</span>
+			<h1>Update your todo</h1>
+			<p>Change the title and details, then save your progress.</p>
+
+			<form class="form" th:action="@{/edit}" method="post">
+				<input type="hidden" name="id" th:value="${todo != null ? todo.id : ''}">
+				<div class="field">
+					<label for="title">Title</label>
+					<input id="title" type="text" name="title" placeholder="Task title" th:value="${todo != null ? todo.title : ''}" required>
+				</div>
+
+				<div class="field">
+					<label for="description">Description</label>
+					<textarea id="description" name="description" placeholder="Add a short note" th:text="${todo != null and todo.description != null ? todo.description : ''}"></textarea>
+				</div>
+
+				<div class="row">
+					<div class="field">
+						<label for="dueDate">Due Date</label>
+						<input id="dueDate" type="date" name="dueDate" th:value="${todo != null and todo.dueDate != null ? todo.dueDate : ''}">
+					</div>
+					<div class="field">
+						<label for="status">Status</label>
+						<input id="status" type="text" name="status" th:value="${todo != null and todo.completed ? 'Done' : 'Open'}" readonly>
+					</div>
+				</div>
+
+				<div class="field">
+					<label>
+						<input type="checkbox" name="completed" th:checked="${todo != null and todo.completed}">
+						 Mark as completed
+					</label>
+				</div>
+
+				<div class="actions">
+					<button type="submit">Save Changes</button>
+					<a class="button secondary" th:href="@{/}">Back to list</a>
+				</div>
+			</form>
+		</section>
+	</main>
+</body>
+</html>
