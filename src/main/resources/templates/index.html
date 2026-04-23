@@ -92,6 +92,12 @@
 			justify-content: center;
 		}
 
+		input[type="checkbox"] {
+			width: 18px;
+			height: 18px;
+			accent-color: var(--accent);
+		}
+
 		.list {
 			list-style: none;
 			padding: 0;
@@ -164,7 +170,7 @@
 
 			<div class="card">
 				<form class="form" th:action="@{/}" method="post">
-					<input type="text" name="title" placeholder="Add a new task" aria-label="Task title">
+					<input type="text" name="title" placeholder="Add a new task" aria-label="Task title" required>
 					<button type="submit">Add Task</button>
 				</form>
 
@@ -175,11 +181,18 @@
 				<ul class="list" th:if="${todos != null and !#lists.isEmpty(todos)}">
 					<li class="item" th:each="todo : ${todos}" th:classappend="${todo.completed} ? 'done' : ''">
 						<div>
+							<form th:action="@{/todo/{id}/toggle(id=${todo.id})}" method="post" style="display:inline;">
+								<input type="checkbox" th:checked="${todo.completed}" onchange="this.form.submit()">
+							</form>
 							<div class="title" th:text="${todo.title}">Sample task</div>
 							<div class="meta" th:text="${todo.description != null ? todo.description : 'No description'}">No description</div>
+							<div class="meta" th:if="${todo.dueDate != null}" th:text="'Due: ' + ${todo.dueDate}">Due date</div>
 						</div>
 						<div class="actions">
-							<a class="button secondary" th:href="@{/edit(id=${todo.id})}">Edit</a>
+							<a class="button secondary" th:href="@{/edit/{id}(id=${todo.id})}">Edit</a>
+							<form th:action="@{/todo/{id}/delete(id=${todo.id})}" method="post" style="display:inline;">
+								<button class="secondary" type="submit">Delete</button>
+							</form>
 						</div>
 					</li>
 				</ul>

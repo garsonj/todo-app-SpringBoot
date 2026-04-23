@@ -62,6 +62,12 @@
 			padding: 24px;
 		}
 
+		input[type="checkbox"] {
+			width: 18px;
+			height: 18px;
+			accent-color: var(--accent);
+		}
+
 		.field {
 			display: grid;
 			gap: 8px;
@@ -143,9 +149,10 @@
 			<p>Change the title and details, then save your progress.</p>
 
 			<form class="form" th:action="@{/edit}" method="post">
+				<input type="hidden" name="id" th:value="${todo != null ? todo.id : ''}">
 				<div class="field">
 					<label for="title">Title</label>
-					<input id="title" type="text" name="title" placeholder="Task title" th:value="${todo != null ? todo.title : ''}">
+					<input id="title" type="text" name="title" placeholder="Task title" th:value="${todo != null ? todo.title : ''}" required>
 				</div>
 
 				<div class="field">
@@ -156,12 +163,19 @@
 				<div class="row">
 					<div class="field">
 						<label for="dueDate">Due Date</label>
-						<input id="dueDate" type="date" name="dueDate">
+						<input id="dueDate" type="date" name="dueDate" th:value="${todo != null and todo.dueDate != null ? todo.dueDate : ''}">
 					</div>
 					<div class="field">
 						<label for="status">Status</label>
-						<input id="status" type="text" name="status" placeholder="Open / Done">
+						<input id="status" type="text" name="status" th:value="${todo != null and todo.completed ? 'Done' : 'Open'}" readonly>
 					</div>
+				</div>
+
+				<div class="field">
+					<label>
+						<input type="checkbox" name="completed" th:checked="${todo != null and todo.completed}">
+						 Mark as completed
+					</label>
 				</div>
 
 				<div class="actions">
