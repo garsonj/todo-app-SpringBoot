@@ -19,12 +19,12 @@ A simple web-based task management application built with **Spring Boot**, **Thy
 
 | Layer        | Technology              |
 |--------------|-------------------------|
-| Backend      | Spring Boot 3.x         |
+| Backend      | Spring Boot 4.x         |
 | UI Templates | Thymeleaf               |
 | Database     | H2 (In-Memory)          |
 | ORM          | Spring Data JPA         |
 | Build Tool   | Maven                   |
-| Language     | Java 17                 |
+| Language     | Java 21                |
 
 ---
 
@@ -56,7 +56,7 @@ todo-app/
 
 Make sure you have the following installed:
 
-- [Java JDK 17+](https://adoptium.net)
+- [Java JDK 21+](https://adoptium.net)
 - [VS Code](https://code.visualstudio.com/) with:
   - Extension Pack for Java (Microsoft)
   - Spring Boot Extension Pack (VMware)
