@@ -1,5 +1,9 @@
 package com.garanga.todo_app.repository;
 
-public class TodoRepository {
+import com.garanga.todo_app.Model.Todo;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface TodoRepository extends JpaRepository<Todo, Long> {
 
 }
